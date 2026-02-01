@@ -25,10 +25,10 @@ import javax.imageio.ImageIO;
  * @author JPEXS
  */
 public class AnimatedPngDecoder {
-    
+
     public static AnimatedPngData decode(InputStream is) throws IOException {
         AnimatedPngData ret = new AnimatedPngData();
-        
+
         List<AnimationFrameData> frames = new ArrayList<>();
         Png png = new Png(is);
 
@@ -38,7 +38,7 @@ public class AnimatedPngDecoder {
         List<Chunk> otherChunks = new ArrayList<>();
         BufferedImage outputBuffer = null;
         Chunk idat = null;
-        for (Chunk chunk : png.chunks) {            
+        for (Chunk chunk : png.chunks) {
             if (chunk instanceof Ihdr) {
                 hdr = (Ihdr) chunk;
                 outputBuffer = new BufferedImage((int) hdr.width, (int) hdr.height, BufferedImage.TYPE_INT_ARGB);
@@ -105,7 +105,7 @@ public class AnimatedPngDecoder {
 
         if (ret.frames.isEmpty()) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            png.writeTo(baos);            
+            png.writeTo(baos);
             ret.backupImage = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
         } else if (idat != null && hdr != null) {
             Png newPng = new Png();
@@ -114,10 +114,10 @@ public class AnimatedPngDecoder {
             newPng.chunks.add(idat);
             newPng.chunks.add(new Chunk("IEND"));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            newPng.writeTo(baos);            
+            newPng.writeTo(baos);
             ret.backupImage = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
         }
-        
+
         ret.frames = frames;
         return ret;
     }

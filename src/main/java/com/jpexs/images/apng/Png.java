@@ -10,21 +10,22 @@ import java.util.List;
 
 /**
  * PNG container - header and chunks.
+ *
  * @author JPEXS
  */
 public class Png {
-    public static final byte[] SIGNATURE = new byte[] {
+
+    public static final byte[] SIGNATURE = new byte[]{
         (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47,
         (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A
     };
-    
-    
+
     public List<Chunk> chunks = new ArrayList<>();
-    
+
     public Png() {
-        
+
     }
-    
+
     public Png(InputStream is) throws IOException {
         PngInputStream pis = new PngInputStream(is);
         byte[] signature = pis.readBytes(8);
@@ -33,11 +34,12 @@ public class Png {
         }
         chunks = pis.readChunkList();
     }
-    
+
     /**
      * Writes png to stream.
+     *
      * @param os
-     * @throws IOException 
+     * @throws IOException
      */
     public void writeTo(OutputStream os) throws IOException {
         PngOutputStream pos = new PngOutputStream(os);
@@ -46,7 +48,7 @@ public class Png {
             pos.writeChunk(chunk);
         }
     }
-    
+
     public static void dumpPng(InputStream is) throws IOException {
         Png png = new Png(is);
         for (Chunk chunk : png.chunks) {

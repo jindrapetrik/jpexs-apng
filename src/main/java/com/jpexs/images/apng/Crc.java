@@ -2,6 +2,7 @@ package com.jpexs.images.apng;
 
 /**
  * CRC calculation class.
+ *
  * @author JPEXS
  */
 public class Crc {
@@ -53,5 +54,5 @@ public class Crc {
         ret = ret ^ 0xffffffffL;
         ret = ret & 0xffffffffL;
         return ret;
-    }        
+    }
 }

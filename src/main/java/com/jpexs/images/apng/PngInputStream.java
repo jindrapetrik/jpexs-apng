@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Input stream for Png data.
+ *
  * @author JPEXS
  */
 public class PngInputStream extends InputStream {

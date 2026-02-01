@@ -48,7 +48,7 @@ public class Ihdr extends Chunk {
 
         create(width, height, bitDepth, colorType, compressionMethod, filterMethod, interlaceMethod);
     }
-    
+
     @Override
     public void writeData(PngOutputStream os) throws IOException {
         os.writeUnsignedInt(width);
@@ -149,5 +149,4 @@ public class Ihdr extends Chunk {
         return "[IHDR width=" + width + " height=" + height + " bitDepth=" + bitDepth + " colorType=" + colorType + " compressionMethod=" + compressionMethod + " filterMethod=" + filterMethod + " interlaceMethod=" + interlaceMethod + "]";
     }
 
-            
 }

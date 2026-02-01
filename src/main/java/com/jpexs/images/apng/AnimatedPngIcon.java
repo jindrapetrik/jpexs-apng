@@ -19,34 +19,33 @@ import javax.swing.Icon;
  * @author JPEXS
  */
 public class AnimatedPngIcon implements Icon {
+
     private final AnimatedPngData apng;
-    
+
     private WeakReference<Component> hostRef = new WeakReference<>(null);
 
     private Timer timer;
-    
+
     private int currentFrame = 0;
-    
+
     private Long startTime = null;
-    
+
     private int remainingNumPlays;
-    
-    
+
     public AnimatedPngIcon(File file) throws IOException {
-        try(FileInputStream fis = new FileInputStream(file)) {
+        try (FileInputStream fis = new FileInputStream(file)) {
             apng = AnimatedPngDecoder.decode(fis);
-        }        
+        }
     }
-    
+
     public AnimatedPngIcon(InputStream is) throws IOException {
-        apng = AnimatedPngDecoder.decode(is);        
+        apng = AnimatedPngDecoder.decode(is);
     }
-    
+
     public AnimatedPngIcon(AnimatedPngData apng) throws IOException {
-        this.apng = apng;      
+        this.apng = apng;
     }
-    
-    
+
     @Override
     public int getIconWidth() {
         return apng.width;
@@ -66,27 +65,26 @@ public class AnimatedPngIcon implements Icon {
             ensureTimerRunningFor(c);
         }
     }
-    
+
     private void ensureTimerRunningFor(Component c) {
         Component host = hostRef.get();
         if (host != c) {
             hostRef = new WeakReference<>(c);
         }
 
-        if (timer == null) {                                    
+        if (timer == null) {
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     onTick();
-                }                
+                }
             }, 20, 20);
         }
     }
-    
-    
+
     private void onTick() {
-        
+
         if (startTime == null) {
             startTime = System.currentTimeMillis();
             currentFrame = 0;
@@ -96,18 +94,17 @@ public class AnimatedPngIcon implements Icon {
                 remainingNumPlays = apng.numPlays;
             }
         }
-        
+
         Component host = hostRef.get();
         if (host == null) {
             stop();
             return;
         }
-        
+
         long currentTime = System.currentTimeMillis();
-        
+
         long currentDelay = currentTime - startTime;
-        
-        
+
         int f = 0;
         long t = 0;
         int newFrame = -1;
@@ -125,24 +122,24 @@ public class AnimatedPngIcon implements Icon {
                 remainingNumPlays--;
             }
             if (remainingNumPlays == -1 || remainingNumPlays > 0) {
-                newFrame = 0;            
+                newFrame = 0;
                 startTime = currentTime;
             } else {
                 return;
             }
-            
+
         }
-                
+
         currentFrame = newFrame;
-        
+
         host.repaint();
     }
-    
+
     public void stop() {
         if (timer != null) {
             timer.cancel();
             timer = null;
         }
     }
-    
+
 }

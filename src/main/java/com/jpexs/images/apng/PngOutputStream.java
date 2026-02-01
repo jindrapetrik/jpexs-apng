@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Output stream for png data.
+ *
  * @author JPEXS
  */
 public class PngOutputStream extends OutputStream {
@@ -23,17 +24,16 @@ public class PngOutputStream extends OutputStream {
         os.write((int) ((val >> 8) & 0xff));
         os.write((int) (val & 0xff));
     }
-    
+
     public void writeUnsignedShort(int val) throws IOException {
         os.write((val >> 8) & 0xff);
         os.write(val & 0xff);
     }
-    
+
     public void writeUnsignedByte(int val) throws IOException {
         os.write(val);
     }
-    
-    
+
     @Override
     public void write(int b) throws IOException {
         os.write(b);
@@ -47,8 +47,8 @@ public class PngOutputStream extends OutputStream {
     @Override
     public void write(byte[] b, int off, int len) throws IOException {
         os.write(b, off, len);
-    }            
-    
+    }
+
     public void writeChunk(Chunk chunk) throws IOException {
         byte[] dataBytes = chunk.getData();
         writeUnsignedInt(dataBytes.length);

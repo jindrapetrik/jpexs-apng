@@ -24,22 +24,21 @@ import javax.swing.JPanel;
  * @author JPEXS
  */
 public class CustomPlayBackExample {
-    
+
     private static int frameNum = 0;
     private static List<AnimationFrameData> frames;
     private static JFrame frame;
     private static JLabel numFrameLabel;
     private static boolean playing = false;
 
-    public static void main(String[] args) throws IOException {    
-        
+    public static void main(String[] args) throws IOException {
+
         //Get sample image from the internet
         URL url = URI.create("https://apng.onevcat.com/assets/elephant.png").toURL();
         InputStream is = url.openStream();
-        
-        
+
         frames = AnimatedPngDecoder.decode(is).frames;
-        
+
         frame = new JFrame("Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel cnt = new JPanel(new BorderLayout());
@@ -52,11 +51,11 @@ public class CustomPlayBackExample {
                 }
                 g.drawImage(frames.get(frameNum).image, 0, 0, null);
             }
-            
+
         }, BorderLayout.CENTER);
-        
+
         numFrameLabel = new JLabel("" + frameNum);
-        
+
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         JButton prevButton = new JButton("Prev");
         prevButton.addActionListener(new ActionListener() {
@@ -70,7 +69,7 @@ public class CustomPlayBackExample {
                 numFrameLabel.setText("" + frameNum);
             }
         });
-        
+
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(new ActionListener() {
             @Override
@@ -78,9 +77,9 @@ public class CustomPlayBackExample {
                 frameNum = (frameNum + 1) % frames.size();
                 frame.repaint();
                 numFrameLabel.setText("" + frameNum);
-            }            
+            }
         });
-        
+
         JButton pausePlayButton = new JButton("Pause/play");
         pausePlayButton.addActionListener(new ActionListener() {
             @Override
@@ -89,7 +88,7 @@ public class CustomPlayBackExample {
                 if (playing) {
                     play();
                 }
-            }            
+            }
         });
         buttonsPanel.add(prevButton);
         buttonsPanel.add(numFrameLabel);
@@ -98,17 +97,17 @@ public class CustomPlayBackExample {
         cnt.add(buttonsPanel, BorderLayout.SOUTH);
         frame.setContentPane(cnt);
         frame.setSize(800, 800);
-                
+
         frame.setVisible(true);
-        
+
     }
-    
-    private static void play() {        
+
+    private static void play() {
         playing = true;
         frameNum = (frameNum + 1) % frames.size();
         numFrameLabel.setText("" + frameNum);
-        frame.repaint();        
-        Timer timer = new Timer(); 
+        frame.repaint();
+        Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -117,6 +116,6 @@ public class CustomPlayBackExample {
                 }
                 play();
             }
-        }, (long) Math.round(frames.get(frameNum).getDelayAsDouble() * 1000));    
+        }, (long) Math.round(frames.get(frameNum).getDelayAsDouble() * 1000));
     }
 }
