@@ -1,6 +1,7 @@
 package com.jpexs.images.apng.chunks;
 
 import com.jpexs.images.apng.PngInputStream;
+import com.jpexs.images.apng.PngOutputStream;
 import java.io.IOException;
 
 /**
@@ -51,6 +52,14 @@ public class Actl extends Chunk {
         create(numFrames, numPlays);
     }
 
+    @Override
+    public void writeData(PngOutputStream os) throws IOException {
+        os.writeUnsignedInt(numFrames);
+        os.writeUnsignedInt(numPlays);
+    }
+
+    
+    
     @Override
     public String toString() {
         return "[acTL numFrames=" + numFrames + " numPlays=" + numPlays + "]";

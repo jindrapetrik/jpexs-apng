@@ -99,6 +99,19 @@ public class AnimationFrameData {
 
 ```
 
+Create animated PNG:
+```java
+import com.jpexs.images.apng.AnimatedPngEncoder;
+import com.jpexs.images.apng.data.AnimatedPngData;
+...
+AnimatedPngData data = new AnimatedPngData();
+...fill the data...;
+
+FileOutputStream fos = new FileOutputStream("out.png");
+AnimatedPngEncoder.encode(data, fos);
+
+```
+
 # Author
 Jindra Petřík aka JPEXS
 

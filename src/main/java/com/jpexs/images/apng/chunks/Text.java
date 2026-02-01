@@ -1,6 +1,7 @@
 package com.jpexs.images.apng.chunks;
 
 import com.jpexs.images.apng.PngInputStream;
+import com.jpexs.images.apng.PngOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -47,6 +48,17 @@ public class Text extends Chunk {
         }
         create(keyword, text);
     }
+
+    @Override
+    public void writeData(PngOutputStream os) throws IOException {
+        String keywordTrunc = keyword;
+        if (keywordTrunc.length() > 79) {
+            keywordTrunc = keywordTrunc.substring(0, 79);
+        }
+        os.write(keywordTrunc.getBytes("ISO_8859-1"));
+        os.write(0);
+        os.write(text.getBytes("ISO_8859-1"));
+    }        
 
     @Override
     public String toString() {

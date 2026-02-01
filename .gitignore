@@ -45,3 +45,6 @@ out/
 
 # Optional: local env files
 .env
+
+# App out file
+/out.png

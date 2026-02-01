@@ -1,6 +1,7 @@
 package com.jpexs.images.apng.chunks;
 
 import com.jpexs.images.apng.PngInputStream;
+import com.jpexs.images.apng.PngOutputStream;
 import java.io.IOException;
 
 /**
@@ -34,6 +35,12 @@ public class Fdat extends Chunk {
         frameData = pis.readBytes(pis.available());
         create(sequenceNumber, frameData);
     }
+
+    @Override
+    public void writeData(PngOutputStream os) throws IOException {
+        os.writeUnsignedInt(sequenceNumber);
+        os.write(frameData);
+    }        
 
     @Override
     public String toString() {

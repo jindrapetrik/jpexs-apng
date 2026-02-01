@@ -1,6 +1,7 @@
 package com.jpexs.images.apng.chunks;
 
 import com.jpexs.images.apng.PngInputStream;
+import com.jpexs.images.apng.PngOutputStream;
 import java.io.IOException;
 
 /**
@@ -112,6 +113,21 @@ The width and height fields must equal the corresponding fields from the IHDR ch
         disposeOp = pis.readUnsignedByte();
         blendOp = pis.readUnsignedByte();
     }
+
+    @Override
+    public void writeData(PngOutputStream os) throws IOException {
+        os.writeUnsignedInt(sequenceNumber);
+        os.writeUnsignedInt(width);
+        os.writeUnsignedInt(height);
+        os.writeUnsignedInt(xOffset);
+        os.writeUnsignedInt(yOffset);
+        os.writeUnsignedShort(delayNum);
+        os.writeUnsignedShort(delayDen);
+        os.writeUnsignedByte(disposeOp);
+        os.writeUnsignedByte(blendOp);
+    }
+    
+    
 
     public Fctl(long sequenceNumber, long width, long height, long xOffset, long yOffset, int delayNum, int delayDen, int disposeOp, int blendOp) {
         super(TYPE);
