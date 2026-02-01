@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.Icon;
 
 /**
@@ -22,7 +23,7 @@ public class AnimatedPngIcon implements Icon {
 
     private final AnimatedPngData apng;
 
-    private WeakReference<Component> hostRef = new WeakReference<>(null);
+    private final CopyOnWriteArrayList<WeakReference<Component>> hosts = new CopyOnWriteArrayList<>();
 
     private Timer timer;
 
@@ -62,15 +63,23 @@ public class AnimatedPngIcon implements Icon {
         g.drawImage(img, x, y, null);
 
         if (apng.frames.size() > 1) {
-            ensureTimerRunningFor(c);
+            registerHost(c);
+            ensureRunning();
         }
     }
 
-    private void ensureTimerRunningFor(Component c) {
-        Component host = hostRef.get();
-        if (host != c) {
-            hostRef = new WeakReference<>(c);
+    private void registerHost(Component c) {
+        // Already registered?
+        for (WeakReference<Component> ref : hosts) {
+            Component existing = ref.get();
+            if (existing == c) {
+                return;
+            }
         }
+        hosts.add(new WeakReference<>(c));
+    }
+    
+    private void ensureRunning() {        
 
         if (timer == null) {
             timer = new Timer();
@@ -93,13 +102,7 @@ public class AnimatedPngIcon implements Icon {
             } else {
                 remainingNumPlays = apng.numPlays;
             }
-        }
-
-        Component host = hostRef.get();
-        if (host == null) {
-            stop();
-            return;
-        }
+        }       
 
         long currentTime = System.currentTimeMillis();
 
@@ -132,7 +135,28 @@ public class AnimatedPngIcon implements Icon {
 
         currentFrame = newFrame;
 
-        host.repaint();
+        boolean anyAlive = false;
+        
+        for (WeakReference<Component> ref : hosts) {
+            Component host = ref.get();
+            if (host == null) {
+                hosts.remove(ref);
+                continue;
+            }
+
+            if (!host.isDisplayable()) {
+                hosts.remove(ref);
+                continue;
+            }
+
+            anyAlive = true;
+
+            host.repaint();
+        }
+        
+        if (!anyAlive) {
+            stop();
+        }
     }
 
     public void stop() {
@@ -141,5 +165,5 @@ public class AnimatedPngIcon implements Icon {
             timer = null;
         }
     }
-
+       
 }
