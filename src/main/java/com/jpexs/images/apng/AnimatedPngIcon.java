@@ -49,20 +49,20 @@ public class AnimatedPngIcon implements Icon {
 
     @Override
     public int getIconWidth() {
-        return apng.width;
+        return apng.getWidth();
     }
 
     @Override
     public int getIconHeight() {
-        return apng.height;
+        return apng.getHeight();
     }
 
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
-        BufferedImage img = apng.frames.isEmpty() ? apng.backupImage : apng.frames.get(currentFrame).image;
+        BufferedImage img = apng.hasFrames() ? apng.getFrame(currentFrame).getImage() : apng.getBackupImage();
         g.drawImage(img, x, y, null);
 
-        if (apng.frames.size() > 1) {
+        if (apng.getFrameCount() > 1) {
             registerHost(c);
             ensureRunning();
         }
@@ -78,8 +78,8 @@ public class AnimatedPngIcon implements Icon {
         }
         hosts.add(new WeakReference<>(c));
     }
-    
-    private void ensureRunning() {        
+
+    private void ensureRunning() {
 
         if (timer == null) {
             timer = new Timer();
@@ -97,12 +97,12 @@ public class AnimatedPngIcon implements Icon {
         if (startTime == null) {
             startTime = System.currentTimeMillis();
             currentFrame = 0;
-            if (apng.numPlays == 0) {
+            if (apng.getNumPlays() == 0) {
                 remainingNumPlays = -1;
             } else {
-                remainingNumPlays = apng.numPlays;
+                remainingNumPlays = apng.getNumPlays();
             }
-        }       
+        }
 
         long currentTime = System.currentTimeMillis();
 
@@ -111,7 +111,7 @@ public class AnimatedPngIcon implements Icon {
         int f = 0;
         long t = 0;
         int newFrame = -1;
-        for (AnimationFrameData fr : apng.frames) {
+        for (AnimationFrameData fr : apng.getFrames()) {
             long d = fr.getDelayInMs();
             if (currentDelay >= t && currentDelay <= t + d) {
                 newFrame = f;
@@ -136,7 +136,7 @@ public class AnimatedPngIcon implements Icon {
         currentFrame = newFrame;
 
         boolean anyAlive = false;
-        
+
         for (WeakReference<Component> ref : hosts) {
             Component host = ref.get();
             if (host == null) {
@@ -153,7 +153,7 @@ public class AnimatedPngIcon implements Icon {
 
             host.repaint();
         }
-        
+
         if (!anyAlive) {
             stop();
         }
@@ -165,5 +165,5 @@ public class AnimatedPngIcon implements Icon {
             timer = null;
         }
     }
-       
+
 }

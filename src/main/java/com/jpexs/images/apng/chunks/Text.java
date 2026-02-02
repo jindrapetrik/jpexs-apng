@@ -13,8 +13,8 @@ public class Text extends Chunk {
 
     public static final String TYPE = "tEXt";
 
-    public String keyword;
-    public String text;
+    private String keyword;
+    private String text;
 
     public Text(byte[] data) {
         super(TYPE, data);
@@ -58,10 +58,27 @@ public class Text extends Chunk {
         os.write(keywordTrunc.getBytes("ISO_8859-1"));
         os.write(0);
         os.write(text.getBytes("ISO_8859-1"));
-    }        
+    }
 
     @Override
     public String toString() {
         return "[tEXt keyword=\"" + keyword.replace("\"", "\"\"") + "\" text=\"" + text.replace("\"", "\"\"") + "\"]";
     }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
 }

@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Collection;
 
 /**
  * PNG container - header and chunks.
@@ -20,10 +21,14 @@ public class Png {
         (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A
     };
 
-    public List<Chunk> chunks = new ArrayList<>();
+    private List<Chunk> chunks = new ArrayList<>();
 
     public Png() {
 
+    }
+
+    public Png(List<Chunk> chunks) {
+        this.chunks = new ArrayList<>(chunks);
     }
 
     public Png(InputStream is) throws IOException {
@@ -55,4 +60,45 @@ public class Png {
             System.out.println(chunk.toString());
         }
     }
+
+    public List<Chunk> getChunks() {
+        return new ArrayList<>(chunks);
+    }
+
+    public void setChunks(List<Chunk> chunks) {
+        this.chunks = new ArrayList<>(chunks);
+    }
+
+    public void addChunk(Chunk chunk) {
+        chunks.add(chunk);
+    }
+
+    public void addAllChunks(Collection<? extends Chunk> chunk) {
+        chunks.addAll(chunk);
+    }
+
+    public void addAllChunks(int index, Collection<? extends Chunk> chunk) {
+        chunks.addAll(index, chunk);
+    }
+
+    public void addChunk(int index, Chunk chunk) {
+        chunks.add(index, chunk);
+    }
+
+    public Chunk getChunk(int index) {
+        return chunks.get(index);
+    }
+
+    public Chunk removeChunk(int index) {
+        return chunks.remove(index);
+    }
+
+    public void clearChunks() {
+        chunks.clear();
+    }
+
+    public int getChunkCount() {
+        return chunks.size();
+    }
+
 }

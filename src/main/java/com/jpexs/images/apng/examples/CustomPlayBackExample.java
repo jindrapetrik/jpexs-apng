@@ -37,7 +37,7 @@ public class CustomPlayBackExample {
         URL url = URI.create("https://apng.onevcat.com/assets/elephant.png").toURL();
         InputStream is = url.openStream();
 
-        frames = AnimatedPngDecoder.decode(is).frames;
+        frames = AnimatedPngDecoder.decode(is).getFrames();
 
         frame = new JFrame("Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +49,7 @@ public class CustomPlayBackExample {
                 if (frameNum < 0) {
                     return;
                 }
-                g.drawImage(frames.get(frameNum).image, 0, 0, null);
+                g.drawImage(frames.get(frameNum).getImage(), 0, 0, null);
             }
 
         }, BorderLayout.CENTER);

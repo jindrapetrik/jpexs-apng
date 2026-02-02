@@ -22,13 +22,13 @@ public class Ihdr extends Chunk {
 
     public static final String TYPE = "IHDR";
 
-    public long width;
-    public long height;
-    public int bitDepth;
-    public int colorType;
-    public int compressionMethod;
-    public int filterMethod;
-    public int interlaceMethod;
+    private long width;
+    private long height;
+    private int bitDepth;
+    private int colorType;
+    private int compressionMethod;
+    private int filterMethod;
+    private int interlaceMethod;
 
     public Ihdr(byte[] data) throws IOException {
         super(TYPE, data);
@@ -36,15 +36,15 @@ public class Ihdr extends Chunk {
 
     @Override
     public void parseData(PngInputStream is) throws IOException {
-        width = is.readUnsignedInt();
+        long width = is.readUnsignedInt();
 
-        height = is.readUnsignedInt();
-        bitDepth = is.readUnsignedByte();
+        long height = is.readUnsignedInt();
+        int bitDepth = is.readUnsignedByte();
 
-        colorType = is.readUnsignedByte();
-        compressionMethod = is.readUnsignedByte();
-        filterMethod = is.readUnsignedByte();
-        interlaceMethod = is.readUnsignedByte();
+        int colorType = is.readUnsignedByte();
+        int compressionMethod = is.readUnsignedByte();
+        int filterMethod = is.readUnsignedByte();
+        int interlaceMethod = is.readUnsignedByte();
 
         create(width, height, bitDepth, colorType, compressionMethod, filterMethod, interlaceMethod);
     }
@@ -147,6 +147,62 @@ public class Ihdr extends Chunk {
     @Override
     public String toString() {
         return "[IHDR width=" + width + " height=" + height + " bitDepth=" + bitDepth + " colorType=" + colorType + " compressionMethod=" + compressionMethod + " filterMethod=" + filterMethod + " interlaceMethod=" + interlaceMethod + "]";
+    }
+
+    public long getWidth() {
+        return width;
+    }
+
+    public void setWidth(long width) {
+        this.width = width;
+    }
+
+    public long getHeight() {
+        return height;
+    }
+
+    public void setHeight(long height) {
+        this.height = height;
+    }
+
+    public int getBitDepth() {
+        return bitDepth;
+    }
+
+    public void setBitDepth(int bitDepth) {
+        this.bitDepth = bitDepth;
+    }
+
+    public int getColorType() {
+        return colorType;
+    }
+
+    public void setColorType(int colorType) {
+        this.colorType = colorType;
+    }
+
+    public int getCompressionMethod() {
+        return compressionMethod;
+    }
+
+    public void setCompressionMethod(int compressionMethod) {
+        this.compressionMethod = compressionMethod;
+    }
+
+    public int getFilterMethod() {
+        return filterMethod;
+    }
+
+    public void setFilterMethod(int filterMethod) {
+        this.filterMethod = filterMethod;
+    }
+
+    public int getInterlaceMethod() {
+        return interlaceMethod;
+    }
+
+    public void setInterlaceMethod(int interlaceMethod) {
+        this.interlaceMethod = interlaceMethod;
     }
 
 }

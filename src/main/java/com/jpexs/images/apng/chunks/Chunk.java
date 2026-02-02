@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- *
+ * PNG Chunk.
  * @author JPEXS
  */
 public class Chunk {

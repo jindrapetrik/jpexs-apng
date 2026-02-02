@@ -12,15 +12,21 @@ public class AnimationFrameData {
     /**
      * The rendered image
      */
-    public BufferedImage image;
+    private BufferedImage image;
     /**
      * Delay numerator
      */
-    public int delayNumerator;
+    private int delayNumerator;
     /**
      * Delay denominator. 0 == 100
      */
-    public int delayDenominator;
+    private int delayDenominator;
+
+    public AnimationFrameData(BufferedImage image, int delayNumerator, int delayDenominator) {
+        this.image = image;
+        this.delayNumerator = delayNumerator;
+        this.delayDenominator = delayDenominator;
+    }
 
     /**
      * Gets value as double value in seconds.
@@ -39,4 +45,29 @@ public class AnimationFrameData {
     public long getDelayInMs() {
         return (long) Math.round(delayNumerator * 1000 / (double) (delayDenominator == 0 ? 100 : delayDenominator));
     }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    public int getDelayNumerator() {
+        return delayNumerator;
+    }
+
+    public void setDelayNumerator(int delayNumerator) {
+        this.delayNumerator = delayNumerator;
+    }
+
+    public int getDelayDenominator() {
+        return delayDenominator;
+    }
+
+    public void setDelayDenominator(int delayDenominator) {
+        this.delayDenominator = delayDenominator;
+    }
+
 }

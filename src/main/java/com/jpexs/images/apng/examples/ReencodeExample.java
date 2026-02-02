@@ -16,17 +16,18 @@ import java.net.URL;
  * @author JPEXS
  */
 public class ReencodeExample {
+
     public static void main(String[] args) throws IOException {
         //Get sample image from the internet
         URL url = URI.create("https://apng.onevcat.com/assets/elephant.png").toURL();
         InputStream is = url.openStream();
-        
+
         AnimatedPngData data = AnimatedPngDecoder.decode(is);
-        
+
         try (FileOutputStream fos = new FileOutputStream("out.png")) {
             AnimatedPngEncoder.encode(data, fos);
         }
-        
-        Png.dumpPng(new FileInputStream("out.png"));        
+
+        Png.dumpPng(new FileInputStream("out.png"));
     }
 }

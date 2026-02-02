@@ -19,14 +19,14 @@ public class Actl extends Chunk {
      * for a single-frame PNG. If this value does not equal the actual number of
      * frames it should be treated as an error.
      */
-    public long numFrames;
+    private long numFrames;
 
     /**
      * Indicates the number of times that this animation should play; if it is
      * 0, the animation should play indefinitely. If nonzero, the animation
      * should come to rest on the final frame at the end of the last play.
      */
-    public long numPlays; //0 = indefinitely
+    private long numPlays; //0 = indefinitely
 
     public Actl(byte[] data) {
         super(TYPE, data);
@@ -47,8 +47,8 @@ public class Actl extends Chunk {
 
     @Override
     public void parseData(PngInputStream pis) throws IOException {
-        numFrames = pis.readUnsignedInt();
-        numPlays = pis.readUnsignedInt();
+        long numFrames = pis.readUnsignedInt();
+        long numPlays = pis.readUnsignedInt();
         create(numFrames, numPlays);
     }
 
@@ -58,10 +58,25 @@ public class Actl extends Chunk {
         os.writeUnsignedInt(numPlays);
     }
 
-    
-    
     @Override
     public String toString() {
         return "[acTL numFrames=" + numFrames + " numPlays=" + numPlays + "]";
     }
+
+    public long getNumFrames() {
+        return numFrames;
+    }
+
+    public void setNumFrames(long numFrames) {
+        this.numFrames = numFrames;
+    }
+
+    public long getNumPlays() {
+        return numPlays;
+    }
+
+    public void setNumPlays(long numPlays) {
+        this.numPlays = numPlays;
+    }
+
 }

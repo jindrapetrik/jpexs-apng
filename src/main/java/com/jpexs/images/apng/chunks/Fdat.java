@@ -12,8 +12,9 @@ public class Fdat extends Chunk {
 
     public static final String TYPE = "fdAT";
 
-    public long sequenceNumber;
-    public byte[] frameData;
+    private long sequenceNumber;
+
+    private byte[] frameData;
 
     public Fdat(byte[] data) {
         super(TYPE, data);
@@ -31,8 +32,8 @@ public class Fdat extends Chunk {
 
     @Override
     public void parseData(PngInputStream pis) throws IOException {
-        sequenceNumber = pis.readUnsignedInt();
-        frameData = pis.readBytes(pis.available());
+        long sequenceNumber = pis.readUnsignedInt();
+        byte[] frameData = pis.readBytes(pis.available());
         create(sequenceNumber, frameData);
     }
 
@@ -40,10 +41,27 @@ public class Fdat extends Chunk {
     public void writeData(PngOutputStream os) throws IOException {
         os.writeUnsignedInt(sequenceNumber);
         os.write(frameData);
-    }        
+    }
 
     @Override
     public String toString() {
         return "[fdAT sequenceNumber=" + sequenceNumber + " frameData.length=" + frameData.length + "]";
     }
+
+    public long getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(long sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public byte[] getFrameData() {
+        return frameData;
+    }
+
+    public void setFrameData(byte[] frameData) {
+        this.frameData = frameData;
+    }
+
 }

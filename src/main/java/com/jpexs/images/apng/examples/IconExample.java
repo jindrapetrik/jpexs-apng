@@ -26,11 +26,11 @@ public class IconExample {
         //Get sample image from the internet
         URL url = URI.create("https://apng.onevcat.com/assets/elephant.png").toURL();
         InputStream is = url.openStream();
-        
+
         AnimatedPngIcon icon = new AnimatedPngIcon(is);
 
         panel.add(new JLabel(icon), BorderLayout.WEST);
-        
+
         //Add another icon to demonstrate we can place it to two diffent labels and still will animate
         panel.add(new JLabel(icon), BorderLayout.EAST);
 
