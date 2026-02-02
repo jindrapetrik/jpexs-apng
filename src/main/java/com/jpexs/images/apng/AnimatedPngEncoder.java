@@ -5,7 +5,9 @@ import com.jpexs.images.apng.chunks.Chunk;
 import com.jpexs.images.apng.chunks.Fctl;
 import com.jpexs.images.apng.chunks.Fdat;
 import com.jpexs.images.apng.chunks.Idat;
+import com.jpexs.images.apng.chunks.Iend;
 import com.jpexs.images.apng.chunks.Ihdr;
+import com.jpexs.images.apng.chunks.Text;
 import com.jpexs.images.apng.data.AnimatedPngData;
 import com.jpexs.images.apng.data.AnimationFrameData;
 import java.awt.image.BufferedImage;
@@ -105,6 +107,10 @@ public class AnimatedPngEncoder {
                             }
                         }
                     }
+                }
+                if (chunk instanceof Iend) {
+                    targetChunks.add(i, new Text("Software", "jpexs-apng"));
+                    break;
                 }
             }
         }
