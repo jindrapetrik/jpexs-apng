@@ -6,6 +6,8 @@ import com.jpexs.images.apng.chunks.Actl;
 import com.jpexs.images.apng.chunks.Chunk;
 import com.jpexs.images.apng.chunks.Fctl;
 import com.jpexs.images.apng.chunks.Fdat;
+import com.jpexs.images.apng.chunks.Idat;
+import com.jpexs.images.apng.chunks.Iend;
 import com.jpexs.images.apng.chunks.Ihdr;
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -72,7 +74,7 @@ public class AnimatedPngDecoder {
         Fctl fctl = null;
         List<Chunk> otherChunks = new ArrayList<>();
         BufferedImage outputBuffer = null;
-        Chunk idat = null;
+        Idat idat = null;
         for (Chunk chunk : png.getChunks()) {
             if (chunk instanceof Ihdr) {
                 hdr = (Ihdr) chunk;
@@ -82,8 +84,8 @@ public class AnimatedPngDecoder {
                 g.fillRect(0, 0, outputBuffer.getWidth(), outputBuffer.getHeight());
                 width = (int) hdr.getWidth();
                 height = (int) hdr.getHeight();
-            } else if ("IDAT".equals(chunk.getType())) {
-                idat = chunk;
+            } else if (chunk instanceof Idat) {
+                idat = (Idat) chunk;
             } else if (chunk instanceof Fctl) {
                 fctl = (Fctl) chunk;
             } else if (chunk instanceof Fdat) {
@@ -91,8 +93,8 @@ public class AnimatedPngDecoder {
                 Png outPng = new Png();
                 outPng.addChunk(new Ihdr(fctl.getWidth(), fctl.getHeight(), hdr.getBitDepth(), hdr.getColorType(), hdr.getCompressionMethod(), hdr.getFilterMethod(), hdr.getInterlaceMethod()));
                 outPng.addAllChunks(otherChunks);
-                outPng.addChunk(new Chunk("IDAT", fdat.getFrameData()));
-                outPng.addChunk(new Chunk("IEND"));
+                outPng.addChunk(new Idat(fdat.getFrameData()));
+                outPng.addChunk(new Iend());
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 outPng.writeTo(baos);
@@ -124,7 +126,7 @@ public class AnimatedPngDecoder {
 
                 frames.add(new AnimationFrameData(newImage, fctl.getDelayNum(), fctl.getDelayDen()));
                 fctl = null;
-            } else if ("IEND".equals(chunk.getType())) {
+            } else if (chunk instanceof Iend) {
                 break;
             } else if (chunk instanceof Actl) {
                 actl = (Actl) chunk;
@@ -144,7 +146,7 @@ public class AnimatedPngDecoder {
             newPng.addChunk(hdr);
             newPng.addAllChunks(otherChunks);
             newPng.addChunk(idat);
-            newPng.addChunk(new Chunk("IEND"));
+            newPng.addChunk(new Iend());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             newPng.writeTo(baos);
             backupImage = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));

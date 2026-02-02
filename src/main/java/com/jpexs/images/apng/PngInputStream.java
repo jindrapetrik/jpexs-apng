@@ -4,8 +4,12 @@ import com.jpexs.images.apng.chunks.Actl;
 import com.jpexs.images.apng.chunks.Chunk;
 import com.jpexs.images.apng.chunks.Fctl;
 import com.jpexs.images.apng.chunks.Fdat;
+import com.jpexs.images.apng.chunks.Idat;
+import com.jpexs.images.apng.chunks.Iend;
 import com.jpexs.images.apng.chunks.Ihdr;
+import com.jpexs.images.apng.chunks.Plte;
 import com.jpexs.images.apng.chunks.Text;
+import com.jpexs.images.apng.chunks.Trns;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -114,6 +118,18 @@ public class PngInputStream extends InputStream {
             case Ihdr.TYPE:
                 ret = new Ihdr(chunkData);
                 break;
+            case Idat.TYPE:
+                ret = new Idat(chunkData);
+                break;
+            case Plte.TYPE:
+                ret = new Plte(chunkData);
+                break;
+            case Iend.TYPE:
+                ret = new Iend(chunkData);
+                break;
+            case Trns.TYPE:
+                ret = new Trns(chunkData);
+                break;
             case Actl.TYPE:
                 ret = new Actl(chunkData);
                 break;
@@ -146,7 +162,7 @@ public class PngInputStream extends InputStream {
         do {
             chunk = readChunk();
             ret.add(chunk);
-        } while (!"IEND".equals(chunk.getType()));
+        } while (!(chunk instanceof Iend));
         return ret;
     }
 

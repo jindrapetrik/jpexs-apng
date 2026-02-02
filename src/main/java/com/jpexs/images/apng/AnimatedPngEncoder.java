@@ -4,6 +4,7 @@ import com.jpexs.images.apng.chunks.Actl;
 import com.jpexs.images.apng.chunks.Chunk;
 import com.jpexs.images.apng.chunks.Fctl;
 import com.jpexs.images.apng.chunks.Fdat;
+import com.jpexs.images.apng.chunks.Idat;
 import com.jpexs.images.apng.chunks.Ihdr;
 import com.jpexs.images.apng.data.AnimatedPngData;
 import com.jpexs.images.apng.data.AnimationFrameData;
@@ -77,7 +78,7 @@ public class AnimatedPngEncoder {
                 if (chunk instanceof Ihdr) {
                     targetChunks.add(i + 1, new Actl(data.getFrameCount(), data.getNumPlays()));
                 }
-                if ("IDAT".equals(chunk.getType())) {
+                if (chunk instanceof Idat) {
                     AnimationFrameData fdata = data.getFrame(frame);
 
                     targetChunks.add(i, new Fctl(sequenceNumber, data.getWidth(), data.getHeight(), 0, 0,
@@ -97,7 +98,7 @@ public class AnimatedPngEncoder {
                         ImageIO.write(fdata.getImage(), "PNG", baos);
                         Png framePng = new Png(new ByteArrayInputStream(baos.toByteArray()));
                         for (int j = 0; j < framePng.getChunkCount(); j++) {
-                            if ("IDAT".equals(framePng.getChunk(j).getType())) {
+                            if (framePng.getChunk(j) instanceof Idat) {
                                 targetChunks.add(i, new Fdat(sequenceNumber, framePng.getChunk(j).getData()));
                                 sequenceNumber++;
                                 i++;
