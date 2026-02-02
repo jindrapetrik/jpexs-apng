@@ -44,7 +44,7 @@ public class Fdat extends Chunk {
      * data.
      *
      * @param sequenceNumber the sequence number
-     * @param frameData      the frame image data
+     * @param frameData the frame image data
      */
     public Fdat(long sequenceNumber, byte[] frameData) {
         super(TYPE);

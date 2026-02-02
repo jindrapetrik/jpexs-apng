@@ -53,7 +53,7 @@ public class AnimatedPngEncoder {
      * </p>
      *
      * @param data the animation data to encode
-     * @param os   the output stream to write the PNG data to
+     * @param os the output stream to write the PNG data to
      * @throws IOException if an I/O error occurs during writing
      */
     public static void encode(AnimatedPngData data, OutputStream os) throws IOException {

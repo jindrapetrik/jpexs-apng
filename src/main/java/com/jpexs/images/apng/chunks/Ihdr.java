@@ -108,13 +108,13 @@ public class Ihdr extends Chunk {
     /**
      * Constructs an IHDR chunk with the specified image parameters.
      *
-     * @param width             the image width in pixels
-     * @param height            the image height in pixels
-     * @param bitDepth          the bit depth (1, 2, 4, 8, or 16)
-     * @param colorType         the color type
+     * @param width the image width in pixels
+     * @param height the image height in pixels
+     * @param bitDepth the bit depth (1, 2, 4, 8, or 16)
+     * @param colorType the color type
      * @param compressionMethod the compression method (must be 0)
-     * @param filterMethod      the filter method (must be 0)
-     * @param interlaceMethod   the interlace method (0 or 1)
+     * @param filterMethod the filter method (must be 0)
+     * @param interlaceMethod the interlace method (0 or 1)
      * @throws IllegalArgumentException if any parameter is invalid
      */
     public Ihdr(

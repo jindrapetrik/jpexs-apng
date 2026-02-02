@@ -50,14 +50,14 @@ public class AnimatedPngData {
      * Constructs a new AnimatedPngData with the specified dimensions and
      * playback settings.
      *
-     * @param width       the width of the animation in pixels
-     * @param height      the height of the animation in pixels
-     * @param numPlays    the number of times the animation should play (0 for
-     *                    infinite)
+     * @param width the width of the animation in pixels
+     * @param height the height of the animation in pixels
+     * @param numPlays the number of times the animation should play (0 for
+     *     infinite)
      * @param backupImage the fallback image for viewers that do not support
-     *                    APNG
+     *     APNG
      * @throws IllegalArgumentException if width or height is less than or equal
-     *                                  to zero
+     *     to zero
      */
     public AnimatedPngData(int width, int height, int numPlays, BufferedImage backupImage) {
         this(width, height, numPlays, backupImage, new ArrayList<>());
@@ -67,15 +67,15 @@ public class AnimatedPngData {
      * Constructs a new AnimatedPngData with the specified dimensions, playback
      * settings, and initial frames.
      *
-     * @param width       the width of the animation in pixels
-     * @param height      the height of the animation in pixels
-     * @param numPlays    the number of times the animation should play (0 for
-     *                    infinite)
+     * @param width the width of the animation in pixels
+     * @param height the height of the animation in pixels
+     * @param numPlays the number of times the animation should play (0 for
+     *     infinite)
      * @param backupImage the fallback image for viewers that do not support
-     *                    APNG
-     * @param frames      the list of animation frames
+     *     APNG
+     * @param frames the list of animation frames
      * @throws IllegalArgumentException if width or height is less than or equal
-     *                                  to zero
+     *     to zero
      */
     public AnimatedPngData(int width, int height, int numPlays, BufferedImage backupImage, List<AnimationFrameData> frames) {
         if (width <= 0) {

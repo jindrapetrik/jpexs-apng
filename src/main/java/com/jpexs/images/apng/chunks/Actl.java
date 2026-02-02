@@ -48,8 +48,8 @@ public class Actl extends Chunk {
      * Constructs an Actl chunk with the specified parameters.
      *
      * @param numFrames the total number of frames in the animation
-     * @param numPlays  the number of times to play the animation (0 for
-     *                  infinite)
+     * @param numPlays the number of times to play the animation (0 for
+     *     infinite)
      * @throws IllegalArgumentException if numFrames is 0
      */
     public Actl(long numFrames, long numPlays) {

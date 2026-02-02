@@ -26,10 +26,10 @@ public class AnimationFrameData {
      * Constructs a new AnimationFrameData with the specified image and delay
      * values.
      *
-     * @param image            the rendered frame image
-     * @param delayNumerator   the numerator of the delay fraction (in seconds)
+     * @param image the rendered frame image
+     * @param delayNumerator the numerator of the delay fraction (in seconds)
      * @param delayDenominator the denominator of the delay fraction (0 is
-     *                         treated as 100)
+     *     treated as 100)
      */
     public AnimationFrameData(BufferedImage image, int delayNumerator, int delayDenominator) {
         this.image = image;

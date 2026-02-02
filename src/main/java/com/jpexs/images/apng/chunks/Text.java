@@ -45,7 +45,7 @@ public class Text extends Chunk {
      * Constructs a Text chunk with the specified keyword and text.
      *
      * @param keyword the keyword (max 79 characters)
-     * @param text    the text content
+     * @param text the text content
      */
     public Text(String keyword, String text) {
         super(TYPE);

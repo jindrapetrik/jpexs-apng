@@ -150,14 +150,14 @@ The width and height fields must equal the corresponding fields from the IHDR ch
      * Constructs an Fctl chunk with the specified parameters.
      *
      * @param sequenceNumber the sequence number of this chunk
-     * @param width          the width of the frame
-     * @param height         the height of the frame
-     * @param xOffset        the x offset of the frame
-     * @param yOffset        the y offset of the frame
-     * @param delayNum       the delay numerator
-     * @param delayDen       the delay denominator (0 is treated as 100)
-     * @param disposeOp      the disposal operation
-     * @param blendOp        the blend operation
+     * @param width the width of the frame
+     * @param height the height of the frame
+     * @param xOffset the x offset of the frame
+     * @param yOffset the y offset of the frame
+     * @param delayNum the delay numerator
+     * @param delayDen the delay denominator (0 is treated as 100)
+     * @param disposeOp the disposal operation
+     * @param blendOp the blend operation
      * @throws IllegalArgumentException if any parameter is invalid
      */
     public Fctl(long sequenceNumber, long width, long height, long xOffset, long yOffset, int delayNum, int delayDen, int disposeOp, int blendOp) {
