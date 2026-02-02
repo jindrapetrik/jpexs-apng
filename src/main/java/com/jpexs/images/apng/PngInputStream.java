@@ -57,7 +57,7 @@ public class PngInputStream extends InputStream {
      * Reads an unsigned byte from the stream.
      *
      * @return the unsigned byte value (0-255)
-     * @throws IOException  if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      * @throws EOFException if the end of stream is reached
      */
     public int readUnsignedByte() throws IOException {
