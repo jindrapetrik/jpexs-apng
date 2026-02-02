@@ -20,6 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Example demonstrating custom playback control of an animated PNG.
+ * <p>
+ * This example shows how to decode an APNG file and manually control frame
+ * playback with previous/next buttons and play/pause functionality.
+ * </p>
  *
  * @author JPEXS
  */
@@ -31,6 +36,12 @@ public class CustomPlayBackExample {
     private static JLabel numFrameLabel;
     private static boolean playing = false;
 
+    /**
+     * Main entry point for the example.
+     *
+     * @param args command line arguments (not used)
+     * @throws IOException if an I/O error occurs
+     */
     public static void main(String[] args) throws IOException {
 
         //Get sample image from the internet

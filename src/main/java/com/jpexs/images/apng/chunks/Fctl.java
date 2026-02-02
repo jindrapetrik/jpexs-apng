@@ -5,12 +5,19 @@ import com.jpexs.images.apng.PngOutputStream;
 import java.io.IOException;
 
 /**
- * fcTL Frame Control Chunk
+ * fcTL Frame Control Chunk.
+ * <p>
+ * Contains information necessary to properly render the next frame, including
+ * dimensions, position, delay, disposal operation, and blend operation.
+ * </p>
  *
  * @author JPEXS
  */
 public class Fctl extends Chunk {
 
+    /**
+     * Chunk type identifier.
+     */
     public static final String TYPE = "fcTL";
 
     /**
@@ -97,10 +104,18 @@ public class Fctl extends Chunk {
 The x_offset and y_offset fields must be 0.
 The width and height fields must equal the corresponding fields from the IHDR chunk.
      */
+    /**
+     * Constructs an Fctl chunk from raw data.
+     *
+     * @param data the raw chunk data
+     */
     public Fctl(byte[] data) {
         super(TYPE, data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void parseData(PngInputStream pis) throws IOException {
         long sequenceNumber = pis.readUnsignedInt();
@@ -115,6 +130,9 @@ The width and height fields must equal the corresponding fields from the IHDR ch
         create(sequenceNumber, width, height, xOffset, yOffset, delayNum, delayDen, disposeOp, blendOp);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void writeData(PngOutputStream os) throws IOException {
         os.writeUnsignedInt(sequenceNumber);
@@ -128,6 +146,20 @@ The width and height fields must equal the corresponding fields from the IHDR ch
         os.writeUnsignedByte(blendOp);
     }
 
+    /**
+     * Constructs an Fctl chunk with the specified parameters.
+     *
+     * @param sequenceNumber the sequence number of this chunk
+     * @param width the width of the frame
+     * @param height the height of the frame
+     * @param xOffset the x offset of the frame
+     * @param yOffset the y offset of the frame
+     * @param delayNum the delay numerator
+     * @param delayDen the delay denominator (0 is treated as 100)
+     * @param disposeOp the disposal operation
+     * @param blendOp the blend operation
+     * @throws IllegalArgumentException if any parameter is invalid
+     */
     public Fctl(long sequenceNumber, long width, long height, long xOffset, long yOffset, int delayNum, int delayDen, int disposeOp, int blendOp) {
         super(TYPE);
         this.sequenceNumber = sequenceNumber;
@@ -166,79 +198,172 @@ The width and height fields must equal the corresponding fields from the IHDR ch
         this.blendOp = blendOp;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "[fcTL sequenceNumber=" + sequenceNumber + " width=" + width + " height=" + height + " xOffset=" + xOffset + " yOffset=" + yOffset + " delayNum=" + delayNum + " delayDen=" + delayDen + " disposeOp=" + disposeOp + " blendOp=" + blendOp + "]";
     }
 
+    /**
+     * Returns the sequence number.
+     *
+     * @return the sequence number
+     */
     public long getSequenceNumber() {
         return sequenceNumber;
     }
 
+    /**
+     * Sets the sequence number.
+     *
+     * @param sequenceNumber the sequence number
+     */
     public void setSequenceNumber(long sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
 
+    /**
+     * Returns the frame width.
+     *
+     * @return the width in pixels
+     */
     public long getWidth() {
         return width;
     }
 
+    /**
+     * Sets the frame width.
+     *
+     * @param width the width in pixels
+     */
     public void setWidth(long width) {
         this.width = width;
     }
 
+    /**
+     * Returns the frame height.
+     *
+     * @return the height in pixels
+     */
     public long getHeight() {
         return height;
     }
 
+    /**
+     * Sets the frame height.
+     *
+     * @param height the height in pixels
+     */
     public void setHeight(long height) {
         this.height = height;
     }
 
+    /**
+     * Returns the x offset of the frame.
+     *
+     * @return the x offset in pixels
+     */
     public long getxOffset() {
         return xOffset;
     }
 
+    /**
+     * Sets the x offset of the frame.
+     *
+     * @param xOffset the x offset in pixels
+     */
     public void setxOffset(long xOffset) {
         this.xOffset = xOffset;
     }
 
+    /**
+     * Returns the y offset of the frame.
+     *
+     * @return the y offset in pixels
+     */
     public long getyOffset() {
         return yOffset;
     }
 
+    /**
+     * Sets the y offset of the frame.
+     *
+     * @param yOffset the y offset in pixels
+     */
     public void setyOffset(long yOffset) {
         this.yOffset = yOffset;
     }
 
+    /**
+     * Returns the delay numerator.
+     *
+     * @return the delay numerator
+     */
     public int getDelayNum() {
         return delayNum;
     }
 
+    /**
+     * Sets the delay numerator.
+     *
+     * @param delayNum the delay numerator
+     */
     public void setDelayNum(int delayNum) {
         this.delayNum = delayNum;
     }
 
+    /**
+     * Returns the delay denominator.
+     *
+     * @return the delay denominator (0 means 100)
+     */
     public int getDelayDen() {
         return delayDen;
     }
 
+    /**
+     * Sets the delay denominator.
+     *
+     * @param delayDen the delay denominator (0 is treated as 100)
+     */
     public void setDelayDen(int delayDen) {
         this.delayDen = delayDen;
     }
 
+    /**
+     * Returns the disposal operation.
+     *
+     * @return the disposal operation
+     */
     public int getDisposeOp() {
         return disposeOp;
     }
 
+    /**
+     * Sets the disposal operation.
+     *
+     * @param disposeOp the disposal operation
+     */
     public void setDisposeOp(int disposeOp) {
         this.disposeOp = disposeOp;
     }
 
+    /**
+     * Returns the blend operation.
+     *
+     * @return the blend operation
+     */
     public int getBlendOp() {
         return blendOp;
     }
 
+    /**
+     * Sets the blend operation.
+     *
+     * @param blendOp the blend operation
+     */
     public void setBlendOp(int blendOp) {
         this.blendOp = blendOp;
     }

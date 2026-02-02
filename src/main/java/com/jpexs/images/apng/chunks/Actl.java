@@ -5,12 +5,19 @@ import com.jpexs.images.apng.PngOutputStream;
 import java.io.IOException;
 
 /**
- * acTL Animation Control Chunk
+ * acTL Animation Control Chunk.
+ * <p>
+ * Contains animation metadata including the total number of frames and the
+ * number of times the animation should play.
+ * </p>
  *
  * @author JPEXS
  */
 public class Actl extends Chunk {
 
+    /**
+     * Chunk type identifier.
+     */
     public static final String TYPE = "acTL";
 
     /**
@@ -28,10 +35,23 @@ public class Actl extends Chunk {
      */
     private long numPlays; //0 = indefinitely
 
+    /**
+     * Constructs an Actl chunk from raw data.
+     *
+     * @param data the raw chunk data
+     */
     public Actl(byte[] data) {
         super(TYPE, data);
     }
 
+    /**
+     * Constructs an Actl chunk with the specified parameters.
+     *
+     * @param numFrames the total number of frames in the animation
+     * @param numPlays the number of times to play the animation (0 for
+     *     infinite)
+     * @throws IllegalArgumentException if numFrames is 0
+     */
     public Actl(long numFrames, long numPlays) {
         super(TYPE);
         create(numFrames, numPlays);
@@ -45,6 +65,9 @@ public class Actl extends Chunk {
         this.numPlays = numPlays;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void parseData(PngInputStream pis) throws IOException {
         long numFrames = pis.readUnsignedInt();
@@ -52,29 +75,55 @@ public class Actl extends Chunk {
         create(numFrames, numPlays);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void writeData(PngOutputStream os) throws IOException {
         os.writeUnsignedInt(numFrames);
         os.writeUnsignedInt(numPlays);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "[acTL numFrames=" + numFrames + " numPlays=" + numPlays + "]";
     }
 
+    /**
+     * Returns the total number of frames.
+     *
+     * @return the number of frames
+     */
     public long getNumFrames() {
         return numFrames;
     }
 
+    /**
+     * Sets the total number of frames.
+     *
+     * @param numFrames the number of frames
+     */
     public void setNumFrames(long numFrames) {
         this.numFrames = numFrames;
     }
 
+    /**
+     * Returns the number of times the animation should play.
+     *
+     * @return the number of plays (0 means infinite)
+     */
     public long getNumPlays() {
         return numPlays;
     }
 
+    /**
+     * Sets the number of times the animation should play.
+     *
+     * @param numPlays the number of plays (0 for infinite)
+     */
     public void setNumPlays(long numPlays) {
         this.numPlays = numPlays;
     }
