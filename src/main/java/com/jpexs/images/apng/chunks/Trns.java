@@ -1,6 +1,7 @@
 package com.jpexs.images.apng.chunks;
 
 import com.jpexs.images.apng.PngInputStream;
+import com.jpexs.images.apng.PngOutputStream;
 import java.io.IOException;
 
 /**
@@ -34,7 +35,12 @@ public class Trns extends Chunk {
         */                
         create(transparencyData);
     }   
-    
+
+    @Override
+    public void writeData(PngOutputStream os) throws IOException {
+        os.write(transparencyData);
+    }    
+        
     private void create(byte[] transparencyData) {
         this.transparencyData = transparencyData;
     }
