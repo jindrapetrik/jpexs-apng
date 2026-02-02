@@ -107,6 +107,8 @@ public class AnimatedPngEncoder {
                             }
                         }
                     }
+                    i--;
+                    continue;
                 }
                 if (chunk instanceof Iend) {
                     targetChunks.add(i, new Text("Software", "jpexs-apng"));
