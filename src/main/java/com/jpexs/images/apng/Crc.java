@@ -46,6 +46,16 @@ public class Crc {
         return c;
     }
 
+    /**
+     * Calculates the CRC-32 checksum for the given data arrays.
+     * <p>
+     * This method uses the PNG CRC-32 algorithm as defined in the PNG
+     * specification.
+     * </p>
+     *
+     * @param data the byte arrays to calculate the CRC for
+     * @return the CRC-32 checksum as an unsigned 32-bit value
+     */
     public static long calculate(byte[]... data) {
         long ret = 0xffffffffL;
         for (byte[] dataPart : data) {

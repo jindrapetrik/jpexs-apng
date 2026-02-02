@@ -17,11 +17,45 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
+ * Encoder for Animated PNG (APNG) images.
+ * <p>
+ * This class provides functionality to encode {@link AnimatedPngData} objects
+ * into animated PNG files.
+ * </p>
+ *
+ * <p>
+ * Example usage:
+ * </p>
+ * <pre>{@code
+ * AnimatedPngData data = new AnimatedPngData(width, height, 0, null);
+ * data.addFrame(new AnimationFrameData(image1, 1, 10));
+ * data.addFrame(new AnimationFrameData(image2, 1, 10));
+ *
+ * FileOutputStream fos = new FileOutputStream("output.png");
+ * AnimatedPngEncoder.encode(data, fos);
+ * fos.close();
+ * }</pre>
  *
  * @author JPEXS
+ * @see AnimatedPngData
+ * @see AnimatedPngDecoder
  */
 public class AnimatedPngEncoder {
 
+    /**
+     * Encodes the given animation data to an Animated PNG and writes it to the
+     * output stream.
+     * <p>
+     * If the animation data has no frames, a static PNG will be written using
+     * the backup image. If there are frames but no backup image is set, the
+     * first frame will be used as the backup image for viewers that do not
+     * support APNG.
+     * </p>
+     *
+     * @param data the animation data to encode
+     * @param os   the output stream to write the PNG data to
+     * @throws IOException if an I/O error occurs during writing
+     */
     public static void encode(AnimatedPngData data, OutputStream os) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BufferedImage backupImage = data.getBackupImage();

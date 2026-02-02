@@ -21,11 +21,44 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
+ * Decoder for Animated PNG (APNG) images.
+ * <p>
+ * This class provides functionality to decode animated PNG files into
+ * {@link AnimatedPngData} objects containing individual frames and animation
+ * metadata.
+ * </p>
+ *
+ * <p>
+ * Example usage:
+ * </p>
+ * <pre>{@code
+ * InputStream is = new FileInputStream("animation.png");
+ * AnimatedPngData data = AnimatedPngDecoder.decode(is);
+ * for (AnimationFrameData frame : data.getFrames()) {
+ *     // Process each frame
+ * }
+ * }</pre>
  *
  * @author JPEXS
+ * @see AnimatedPngData
+ * @see AnimatedPngEncoder
  */
 public class AnimatedPngDecoder {
 
+    /**
+     * Decodes an Animated PNG from the given input stream.
+     * <p>
+     * This method reads the entire PNG file and extracts all animation frames
+     * along with their timing information. For non-animated PNGs, the returned
+     * {@link AnimatedPngData} will have an empty frame list but will contain a
+     * backup image.
+     * </p>
+     *
+     * @param is the input stream to read the PNG data from
+     * @return an {@link AnimatedPngData} object containing the decoded animation
+     * @throws IOException if an I/O error occurs during reading or if the PNG
+     *                     data is invalid
+     */
     public static AnimatedPngData decode(InputStream is) throws IOException {
         List<AnimationFrameData> frames = new ArrayList<>();
         Png png = new Png(is);

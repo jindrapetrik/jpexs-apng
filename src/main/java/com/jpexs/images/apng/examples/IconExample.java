@@ -11,11 +11,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Example demonstrating how to use {@link AnimatedPngIcon} to display an
+ * animated PNG in a Swing application.
  *
  * @author JPEXS
  */
 public class IconExample {
 
+    /**
+     * Main entry point for the example.
+     *
+     * @param args command line arguments (not used)
+     * @throws IOException if an I/O error occurs
+     */
     public static void main(String[] args) throws IOException {
         JFrame frame = new JFrame("Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
