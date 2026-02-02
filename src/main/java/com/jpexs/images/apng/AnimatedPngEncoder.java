@@ -85,7 +85,7 @@ public class AnimatedPngEncoder {
                             fdata.getDelayNumerator(), fdata.getDelayDenominator(), Fctl.DISPOSE_OP_BACKGROUND, Fctl.BLEND_OP_SOURCE));
                     frame++;
                     sequenceNumber++;
-                    i++;
+                    i += 2;
                     for (; frame < data.getFrameCount(); frame++) {
 
                         fdata = data.getFrame(frame);
