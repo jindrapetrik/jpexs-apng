@@ -56,7 +56,7 @@ public class Plte extends Chunk {
 
     private void create(byte[] paletteData) {
         if ((paletteData.length % 3) != 0) {
-            throw new IllegalArgumentException("Incorrect palette length: " + this.paletteData.length + " (not multiple of 3)");
+            throw new IllegalArgumentException("Incorrect palette length: " + paletteData.length + " (not multiple of 3)");
         }
         this.paletteData = paletteData;
     }
@@ -86,7 +86,7 @@ public class Plte extends Chunk {
      */
     public void setPaletteData(byte[] paletteData) {
         if ((paletteData.length % 3) != 0) {
-            throw new IllegalArgumentException("Incorrect palette length: " + this.paletteData.length + " (not multiple of 3)");
+            throw new IllegalArgumentException("Incorrect palette length: " + paletteData.length + " (not multiple of 3)");
         }
         this.paletteData = paletteData;
     }
