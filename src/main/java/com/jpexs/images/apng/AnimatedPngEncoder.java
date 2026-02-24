@@ -75,46 +75,62 @@ public class AnimatedPngEncoder {
         if (data.hasFrames()) {
             long sequenceNumber = 0;
             int frame = 0;
+            
+            //Insert acTL after IHDR 
             for (int i = 0; i < targetChunks.size(); i++) {
                 Chunk chunk = targetChunks.get(i);
                 if (chunk instanceof Ihdr) {
                     targetChunks.add(i + 1, new Actl(data.getFrameCount(), data.getNumPlays()));
-                }
-                if (chunk instanceof Idat) {
-                    AnimationFrameData fdata = data.getFrame(frame);
-
-                    targetChunks.add(i, new Fctl(sequenceNumber, data.getWidth(), data.getHeight(), 0, 0,
-                            fdata.getDelayNumerator(), fdata.getDelayDenominator(), Fctl.DISPOSE_OP_BACKGROUND, Fctl.BLEND_OP_SOURCE));
-                    frame++;
-                    sequenceNumber++;
-                    i += 2;
-                    for (; frame < data.getFrameCount(); frame++) {
-
-                        fdata = data.getFrame(frame);
-                        targetChunks.add(i, new Fctl(sequenceNumber, data.getWidth(), data.getHeight(), 0, 0,
-                                fdata.getDelayNumerator(), fdata.getDelayDenominator(), Fctl.DISPOSE_OP_BACKGROUND, Fctl.BLEND_OP_SOURCE));
-                        sequenceNumber++;
-                        i++;
-
-                        baos = new ByteArrayOutputStream();
-                        ImageIO.write(fdata.getImage(), "PNG", baos);
-                        Png framePng = new Png(new ByteArrayInputStream(baos.toByteArray()));
-                        for (int j = 0; j < framePng.getChunkCount(); j++) {
-                            if (framePng.getChunk(j) instanceof Idat) {
-                                targetChunks.add(i, new Fdat(sequenceNumber, framePng.getChunk(j).getData()));
-                                sequenceNumber++;
-                                i++;
-                            }
-                        }
-                    }
-                    i--;
-                    continue;
-                }
-                if (chunk instanceof Iend) {
-                    targetChunks.add(i, new Text("Software", "jpexs-apng"));
                     break;
                 }
             }
+            
+            //Insert software info before last chunk (before IEND)
+            targetChunks.add(targetChunks.size() - 1, new Text("Software", "jpexs-apng"));
+            
+            int firstIdatPos = -1;
+            int lastIdatPos = -1;
+            
+            for (int i = 0; i < targetChunks.size(); i++) {
+                Chunk chunk = targetChunks.get(i);
+                if (chunk instanceof Idat) {
+                    if (firstIdatPos == -1) {
+                        firstIdatPos = i;
+                    }
+                    lastIdatPos = i;
+                }                
+            }
+            
+            if (firstIdatPos > -1) {
+                AnimationFrameData fdata = data.getFrame(frame);
+
+                targetChunks.add(firstIdatPos, new Fctl(sequenceNumber, data.getWidth(), data.getHeight(), 0, 0,
+                        fdata.getDelayNumerator(), fdata.getDelayDenominator(), Fctl.DISPOSE_OP_BACKGROUND, Fctl.BLEND_OP_SOURCE));
+                firstIdatPos++;
+                lastIdatPos++;
+                frame++;
+                sequenceNumber++;
+                int i = lastIdatPos + 1; 
+                
+                for (; frame < data.getFrameCount(); frame++) {
+                    fdata = data.getFrame(frame);
+                    targetChunks.add(i, new Fctl(sequenceNumber, data.getWidth(), data.getHeight(), 0, 0,
+                            fdata.getDelayNumerator(), fdata.getDelayDenominator(), Fctl.DISPOSE_OP_BACKGROUND, Fctl.BLEND_OP_SOURCE));
+                    sequenceNumber++;
+                    i++;
+
+                    baos = new ByteArrayOutputStream();
+                    ImageIO.write(fdata.getImage(), "PNG", baos);
+                    Png framePng = new Png(new ByteArrayInputStream(baos.toByteArray()));
+                    for (int j = 0; j < framePng.getChunkCount(); j++) {
+                        if (framePng.getChunk(j) instanceof Idat) {
+                            targetChunks.add(i, new Fdat(sequenceNumber, framePng.getChunk(j).getData()));
+                            sequenceNumber++;
+                            i++;
+                        }
+                    }
+                }
+            }                        
         }
 
         Png targetPng = new Png(targetChunks);
